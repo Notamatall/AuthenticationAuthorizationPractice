@@ -1,12 +1,6 @@
-﻿using Authentication_Basics.AuthrorizationRequirments;
-using Authentication_Basics.Controllers.Queries;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Authentication_Basics.Constants;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Authentication_Basics.Controllers
 {
@@ -14,12 +8,12 @@ namespace Authentication_Basics.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private readonly IAuthorizationService authorizationService;
-        public TestController(IAuthorizationService authorizationService)
+        [HttpGet("[action]")]
+        [Authorize(Policy = PoliciesList.PolicyAvarageSecurityLevel)]
+        public IActionResult TestMultipleRequirementAuthorizationHandler()
         {
-            this.authorizationService = authorizationService;
+            return Ok(" MultipleRequirementAuthorizationHandler");
         }
-
 
     }
 }

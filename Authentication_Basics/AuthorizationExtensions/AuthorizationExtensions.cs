@@ -26,15 +26,21 @@ namespace Authentication_Basics.AuthorizationExtensions
                   config.AddPolicy(PoliciesList.PolicyAvarageSecurityLevel, b =>
                   {
                       b.AddRequirements(new SecurityLevelRequirement(5));
+                      b.AddRequirements(new CustomRequirementClaim(ClaimTypes.DateOfBirth));
                   });
               })
-             .AddAuthorizationHandlers();
+             .AddAuthorizationHandler();
 
         }
         private static IServiceCollection AddAuthorizationHandlers(this IServiceCollection services)
         {
             return services.AddScoped<IAuthorizationHandler, CustomAuthorizationHandler>()
                            .AddScoped<IAuthorizationHandler, SecurityLevelAuthorizationHandler>();
+        }
+
+        private static IServiceCollection AddAuthorizationHandler(this IServiceCollection services)
+        {
+            return services.AddScoped<IAuthorizationHandler, MultipleRequirementsHandler>();
         }
     }
 
