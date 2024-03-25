@@ -21,6 +21,7 @@ namespace Authentication_Basics
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
+            services.AddBasicAuthentication();
             services.AddAuthentication()
                     .AddCookieAuthentication()
                     .AddJWTAuthentication(Configuration);

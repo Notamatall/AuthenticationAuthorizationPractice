@@ -1,3 +1,4 @@
+﻿using Authentication_Basics.Mocks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -8,15 +9,14 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using WebApi.Entities;
-using WebApi.Services;
 
-namespace WebApi.Helpers
+namespace Authentication_Basics.AuthenticationHandler
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly IUserService _userService;
 
+        [Obsolete]
         public BasicAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
@@ -27,19 +27,18 @@ namespace WebApi.Helpers
         {
             _userService = userService;
         }
-   
+
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-      
+
             if (!Request.Headers.ContainsKey("Authorization"))
                 return AuthenticateResult.Fail("Missing Authorization Header");
 
             User user = null;
             try
-            {
-                var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
-                var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
-                var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
+            {      
+                var credentialBytes = Convert.FromBase64String(Request.Headers["Authorization"]);
+                var credentials = Encoding.UTF8.GetString(credentialBytes).Split([':'], 2);
                 var username = credentials[0];
                 var password = credentials[1];
                 user = await _userService.Authenticate(username, password);
@@ -56,6 +55,7 @@ namespace WebApi.Helpers
                 new Claim(ClaimTypes.NameIdentifier,"15"),
                 new Claim(ClaimTypes.Name, "ivan"),
             };
+
             var identity = new ClaimsIdentity(claims, Scheme.Name);
             var identity2 = new ClaimsIdentity(claims, "Cookie auth");
             var principal = new ClaimsPrincipal(new List<ClaimsIdentity> { identity, identity2 });

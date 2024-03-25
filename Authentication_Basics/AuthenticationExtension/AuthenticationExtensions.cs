@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Authentication_Basics.AuthenticationHandler;
+using Authentication_Basics.Mocks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -55,6 +57,17 @@ namespace Authentication_Basics.AuthenticationExtension
                 };
 
             });
+        }
+
+        public static AuthenticationBuilder AddBasicAuthentication(this IServiceCollection services)
+        {
+            services.AddScoped<IUserService, UserService>();
+            return services.AddAuthentication(options =>
+                     {
+                         options.DefaultAuthenticateScheme = "Basic";
+                         options.DefaultChallengeScheme = "Basic";
+                     })
+                    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
         }
     }
 }
