@@ -11,20 +11,21 @@ namespace Authentication_Basics.ExtensionMethods
         /// Adds authorization policy which requires each user inside each http request to be authorized.
         /// That means you do not need to specify [Authorize] attribute anymore over action or controller itself.
         /// </summary>
-        public static IMvcBuilder AddGlobalAuthWithControllers(this IServiceCollection services,bool withGlobalAuth = false)
+        public static IMvcBuilder AddGlobalAuthWithControllers(this IServiceCollection services, bool withGlobalAuth = false)
         {
-            return services.AddControllers(config =>
-            {
-                if (withGlobalAuth)
-                {
-                    var defaultAuthBuilder = new AuthorizationPolicyBuilder();
-                    var defaultAuthPolicy = defaultAuthBuilder
-                    .RequireAuthenticatedUser()
-                    .Build();
+            return services.AddHttpContextAccessor()
+             .AddControllers(config =>
+             {
+                 if (withGlobalAuth)
+                 {
+                     var defaultAuthBuilder = new AuthorizationPolicyBuilder();
+                     var defaultAuthPolicy = defaultAuthBuilder
+                     .RequireAuthenticatedUser()
+                     .Build();
 
-                    config.Filters.Add(new AuthorizeFilter(defaultAuthPolicy));
-                }            
-            });
+                     config.Filters.Add(new AuthorizeFilter(defaultAuthPolicy));
+                 }
+             });
         }
     }
 }
