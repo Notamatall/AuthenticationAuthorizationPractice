@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.AuthenticationExtension
+namespace Authentication_Basics.AuthenticationExtensions
 {
     public static class AuthenticationExtensions
     {
@@ -62,11 +62,7 @@ namespace Authentication_Basics.AuthenticationExtension
         public static AuthenticationBuilder AddBasicAuthentication(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
-            return services.AddAuthentication(options =>
-                     {
-                         options.DefaultAuthenticateScheme = "Basic";
-                         options.DefaultChallengeScheme = "Basic";
-                     })
+            return services.AddAuthentication()
                     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
         }
     }

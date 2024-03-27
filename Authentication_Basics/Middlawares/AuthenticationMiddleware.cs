@@ -12,7 +12,7 @@ namespace Authentication_Basics.Middlawares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (context.User.Identity.IsAuthenticated)
+            if (context.User.Identity != null && context.User.Identity.IsAuthenticated)
                 FinishAuthentication(context);
 
             await next(context);
@@ -20,7 +20,7 @@ namespace Authentication_Basics.Middlawares
 
         private static void FinishAuthentication(HttpContext context)
         {
-     
+
         }
     }
 }

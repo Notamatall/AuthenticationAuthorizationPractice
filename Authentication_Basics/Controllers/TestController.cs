@@ -1,4 +1,5 @@
 ﻿using Authentication_Basics.Constants;
+using Authentication_Basics.Filters;
 using Authentication_Basics.Mocks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,5 +32,11 @@ namespace Authentication_Basics.Controllers
             return Ok(users);
         }
 
+        [HttpGet("[action]")]
+        [AuthorizationFilter]
+        public IActionResult TestAuthorizationFilter()
+        {
+            return Ok("Successfuly returned after authorization filter");
+        }
     }
 }

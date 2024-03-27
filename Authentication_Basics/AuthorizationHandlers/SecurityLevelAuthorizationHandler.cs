@@ -16,7 +16,7 @@ namespace Authentication_Basics.AuthrorizationRequirements
 
     public class SecurityLevelAuthorizationHandler : AuthorizationHandler<SecurityLevelRequirement>
     {
-        const string RootClaimType = "SecurityLevel";
+        public const string RootClaimType = "SecurityLevel";
         protected override Task HandleRequirementAsync(
             AuthorizationHandlerContext context,
             SecurityLevelRequirement requirement)

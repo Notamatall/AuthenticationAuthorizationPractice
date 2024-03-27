@@ -1,7 +1,7 @@
 ﻿using Authentication_Basics.AuthrorizationRequirments;
 using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Authentication_Basics.AuthrorizationRequirements
@@ -17,15 +17,14 @@ namespace Authentication_Basics.AuthrorizationRequirements
             {
                 if (requirement is CustomRequirementClaim)
                 {
-                    if (IsOwner(context.User, context.Resource)
-                        || IsSponsor(context.User, context.Resource))
+                    if (HasCustomRequirement(context, (CustomRequirementClaim)requirement))
                     {
                         context.Succeed(requirement);
                     }
                 }
                 else if (requirement is SecurityLevelRequirement)
                 {
-                    if (IsOwner(context.User, context.Resource))
+                    if (IsEnoughSecurityhLevelRequirement(context, (SecurityLevelRequirement)requirement))
                     {
                         context.Succeed(requirement);
                     }
@@ -35,16 +34,17 @@ namespace Authentication_Basics.AuthrorizationRequirements
             return Task.CompletedTask;
         }
 
-        private static bool IsOwner(ClaimsPrincipal user, object? resource)
+        private static bool HasCustomRequirement(AuthorizationHandlerContext context, CustomRequirementClaim requirement)
         {
-            // Code omitted for brevity
-            return true;
+            return context.User.Claims.Any(x => x.Type == requirement.ClaimType);
         }
 
-        private static bool IsSponsor(ClaimsPrincipal user, object? resource)
+        private static bool IsEnoughSecurityhLevelRequirement(AuthorizationHandlerContext context, SecurityLevelRequirement requirement)
         {
-            // Code omitted for brevity
-            return true;
+            return requirement.Level <= Convert
+                .ToInt32(context.User.Claims
+                .FirstOrDefault(x => x.Type == SecurityLevelAuthorizationHandler.RootClaimType)?.Value ?? "0");
         }
+
     }
 }

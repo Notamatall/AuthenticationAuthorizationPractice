@@ -1,4 +1,4 @@
-using Authentication_Basics.AuthenticationExtension;
+using Authentication_Basics.AuthenticationExtensions;
 using Authentication_Basics.AuthorizationExtensions;
 using Authentication_Basics.ExtensionMethods;
 using Authentication_Basics.SwaggerExtensions;
@@ -20,8 +20,7 @@ namespace Authentication_Basics
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBasicAuthentication();
-            services.AddAuthentication()
+            services.AddBasicAuthentication()
                     .AddCookieAuthentication()
                     .AddJWTAuthentication(Configuration);
 
