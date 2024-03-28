@@ -34,10 +34,10 @@ namespace Authentication_Basics.AuthenticationHandler
             if (!Request.Headers.ContainsKey("Authorization"))
                 return AuthenticateResult.Fail("Missing Authorization Header");
 
-            User user = null;
+            User? user = null;
             try
             {      
-                var credentialBytes = Convert.FromBase64String(Request.Headers["Authorization"]);
+                var credentialBytes = Convert.FromBase64String(Request.Headers.Authorization!);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split([':'], 2);
                 var username = credentials[0];
                 var password = credentials[1];

@@ -2,6 +2,7 @@ using Authentication_Basics.AuthenticationExtensions;
 using Authentication_Basics.AuthorizationExtensions;
 using Authentication_Basics.ExtensionMethods;
 using Authentication_Basics.SwaggerExtensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,9 +21,14 @@ namespace Authentication_Basics
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBasicAuthentication()
-                    .AddCookieAuthentication()
-                    .AddJWTAuthentication(Configuration);
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddBasicAuthentication(services)
+            .AddCookieAuthentication()
+            .AddJWTAuthentication(Configuration);
 
             services.AddGlobalAuthWithControllers();
             services.AddSwagger(Configuration);

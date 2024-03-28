@@ -29,7 +29,7 @@ namespace Authentication_Basics.AuthorizationExtensions
                       b.AddRequirements(new CustomRequirementClaim(ClaimTypes.DateOfBirth));
                   });
               })
-             .AddAuthorizationHandler();
+             .AddMultipleRequirementsAuthorizationHandler();
 
         }
         private static IServiceCollection AddAuthorizationHandlers(this IServiceCollection services)
@@ -38,7 +38,7 @@ namespace Authentication_Basics.AuthorizationExtensions
                            .AddScoped<IAuthorizationHandler, SecurityLevelAuthorizationHandler>();
         }
 
-        private static IServiceCollection AddAuthorizationHandler(this IServiceCollection services)
+        private static IServiceCollection AddMultipleRequirementsAuthorizationHandler(this IServiceCollection services)
         {
             return services.AddScoped<IAuthorizationHandler, MultipleRequirementsHandler>();
         }

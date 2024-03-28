@@ -39,7 +39,7 @@ namespace Authentication_Basics.AuthenticationExtensions
                     ValidateIssuerSigningKey = true,
 
                     //encripted key neccessary for validation of signature in token
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(configuration["Authentication:AuthSecret"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(configuration["Authentication:AuthSecret"]!)),
 
                     ValidateIssuer = false,
                     ValidateAudience = false
@@ -59,11 +59,10 @@ namespace Authentication_Basics.AuthenticationExtensions
             });
         }
 
-        public static AuthenticationBuilder AddBasicAuthentication(this IServiceCollection services)
+        public static AuthenticationBuilder AddBasicAuthentication(this AuthenticationBuilder authBuilder, IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
-            return services.AddAuthentication()
-                    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
+            return authBuilder.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Authentication_Basics.Filters
 {
     public class AuthorizationFilterAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
-        private readonly string[] claimValuesToMatch = { };
+        private readonly string[] claimValuesToMatch = [];
 
         public AuthorizationFilterAttribute() { }
 
