@@ -5,12 +5,6 @@ VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication_Basics", "Authentication_Basics\Authentication_Basics.csproj", "{BBAFA034-E6F1-4FB2-8DDC-6BE31DE89BBB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basic", "Basic", "{19B853C2-4AC0-46B6-88BD-ECBDB34F9E9A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Advanced", "Advanced", "{B0D1572F-A8B0-4C85-87AD-0C77BDAF5F3B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication_Advanced", "Authentication_Advanced\Authentication_Advanced.csproj", "{8507DDF7-990A-4CB8-AF00-D7C4E54B2384}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,17 +15,9 @@ Global
 		{BBAFA034-E6F1-4FB2-8DDC-6BE31DE89BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBAFA034-E6F1-4FB2-8DDC-6BE31DE89BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBAFA034-E6F1-4FB2-8DDC-6BE31DE89BBB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8507DDF7-990A-4CB8-AF00-D7C4E54B2384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8507DDF7-990A-4CB8-AF00-D7C4E54B2384}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8507DDF7-990A-4CB8-AF00-D7C4E54B2384}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8507DDF7-990A-4CB8-AF00-D7C4E54B2384}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{BBAFA034-E6F1-4FB2-8DDC-6BE31DE89BBB} = {19B853C2-4AC0-46B6-88BD-ECBDB34F9E9A}
-		{8507DDF7-990A-4CB8-AF00-D7C4E54B2384} = {B0D1572F-A8B0-4C85-87AD-0C77BDAF5F3B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CBC43EE8-347C-4DD4-BC30-B9EF0357685B}
