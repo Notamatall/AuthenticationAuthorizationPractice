@@ -3,24 +3,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+using Serilog;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Authentication_Basics
 {
     public class Program
     {
-        private static IConfiguration configuration;
-        public static void Main(string[] args)
-        {
-            configuration = new ConfigurationBuilder()
+        private static IConfiguration configuration = new ConfigurationBuilder()
                                    .SetBasePath(Directory.GetCurrentDirectory())
                                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                    .Build();
-
+        public static void Main(string[] args)
+        {
             CreateHostBuilder(args)
                 .Build()
                 .Run();
@@ -30,7 +25,11 @@ namespace Authentication_Basics
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-
+                    webBuilder.ConfigureLogging(loggin =>
+                    {
+                        loggin.ClearProviders();
+                        loggin.AddConsole();
+                    });
                     webBuilder.UseConfiguration(configuration);
                     webBuilder.UseStartup<Startup>();
                 });

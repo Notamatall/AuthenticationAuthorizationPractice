@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Authentication_Basics.Filters;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Authentication_Basics.ExtensionMethods
 {
-    public static class ExtensionMethods
+    public static class MvcExtensions
     {
         /// <summary>
         /// Add controllers.
@@ -14,7 +17,7 @@ namespace Authentication_Basics.ExtensionMethods
         public static IMvcBuilder AddGlobalAuthWithControllers(this IServiceCollection services, bool withGlobalAuth = false)
         {
             return services.AddHttpContextAccessor()
-             .AddControllers(config =>
+             .AddControllers(mvcOptions =>
              {
                  if (withGlobalAuth)
                  {
@@ -23,9 +26,19 @@ namespace Authentication_Basics.ExtensionMethods
                      .RequireAuthenticatedUser()
                      .Build();
 
-                     config.Filters.Add(new AuthorizeFilter(defaultAuthPolicy));
+                     mvcOptions.Filters.Add(new AuthorizeFilter(defaultAuthPolicy));
                  }
              });
+
         }
+
+        public static IMvcBuilder AddGlobalExeptionHandlingFilter(this IMvcBuilder mvcBuilder)
+        {
+            return mvcBuilder.AddMvcOptions(o =>
+             {
+                 o.Filters.Add(typeof(TypeFilterAttribute<ExceptionFilter>));
+             });
+        }
+
     }
 }

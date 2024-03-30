@@ -1,26 +1,30 @@
 using Authentication_Basics.AuthenticationExtensions;
 using Authentication_Basics.AuthorizationExtensions;
+using Authentication_Basics.ExceptionsHandlers;
 using Authentication_Basics.ExtensionMethods;
+using Authentication_Basics.LoggerExtensions;
 using Authentication_Basics.SwaggerExtensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Authentication_Basics
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddExceptionHandler<GlobalExceptionHandler>();
+            services.AddProblemDetails();
             services.AddAuthentication(o =>
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -28,10 +32,13 @@ namespace Authentication_Basics
             })
             .AddBasicAuthentication(services)
             .AddCookieAuthentication()
-            .AddJWTAuthentication(Configuration);
+            .AddJWTAuthentication(configuration);
+
+            services.AddSerilog(configuration);
 
             services.AddGlobalAuthWithControllers();
-            services.AddSwagger(Configuration);
+
+            services.AddSwagger(configuration);
 
             services.AddCustomAuthorization();
 
@@ -40,11 +47,11 @@ namespace Authentication_Basics
                 options.AddPolicy("AllowSpecificOrigins", builder =>
                 {
                     builder
-                    .WithOrigins(Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? new string[] { })
+                    .WithOrigins(configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [])
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .WithExposedHeaders(Configuration.GetSection("Cors:ExposedHeaders").Get<string[]>() ?? new string[] { });
+                    .WithExposedHeaders(configuration.GetSection("Cors:ExposedHeaders").Get<string[]>() ?? Array.Empty<string>());
                 });
             });
         }
@@ -54,18 +61,20 @@ namespace Authentication_Basics
 
             app.UseCors("AllowSpecificOrigins");
 
-            app.UseRouting();
-
             app.UseAuthentication();
 
+            app.UseRouting();
+
             app.UseAuthorization();
+
+            app.UseExceptionHandler();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            app.UseSwagger(Configuration);
+            app.UseSwagger(configuration);
 
         }
     }
