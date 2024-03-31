@@ -1,16 +1,12 @@
-﻿using Authentication_Basics.AuthrorizationRequirments;
+﻿using Authentication_Basics.Authentication.JWT;
+using Authentication_Basics.Controllers.Queries;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Serilog;
-using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Authentication_Basics.Controllers
@@ -20,36 +16,19 @@ namespace Authentication_Basics.Controllers
     public class AuthenticationController : ControllerBase
     {
         private IConfiguration configuration;
+        private JWTTokenFactory jwtTokenFactory;
 
-        public AuthenticationController(IConfiguration configuration)
+        public AuthenticationController(IConfiguration configuration, JWTTokenFactory jwtTokenFactory)
         {
             this.configuration = configuration;
+            this.jwtTokenFactory = jwtTokenFactory;
         }
 
-        [HttpGet("[action]")]
-        public IActionResult GenerateJWTToken([FromQuery] string username)
+        [HttpPost("[action]")]
+        public IActionResult GenerateJWTToken([FromBody] GenerateJWTTokenModel model)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var secret = configuration["Authentication:AuthSecret"];
-            if (secret == null)
-                throw new Exception("Secret is null");
-
-            var key = Encoding.ASCII.GetBytes(secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, username),
-                    new Claim(DynamicPolicies.SecurityLevel,"6")
-                }),
-                Expires = DateTime.UtcNow.Add(TimeSpan.FromDays(7)),
-                Audience = "",
-                Issuer = "",
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(tokenHandler.WriteToken(token));
+            var token = jwtTokenFactory.GenerateToken(model.UserName);
+            return Ok(token);
         }
 
         [HttpGet("[action]")]

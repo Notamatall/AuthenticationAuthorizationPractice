@@ -1,4 +1,4 @@
-﻿using Authentication_Basics.AuthenticationHandler;
+﻿using Authentication_Basics.Authentication.JWT;
 using Authentication_Basics.Mocks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.AuthenticationExtensions
+namespace Authentication_Basics.Authentication
 {
     public static class AuthenticationExtensions
     {
@@ -25,7 +25,6 @@ namespace Authentication_Basics.AuthenticationExtensions
         {
             return authBuilder.AddJwtBearer(x =>
             {
-
                 x.RequireHttpsMetadata = false;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -55,7 +54,10 @@ namespace Authentication_Basics.AuthenticationExtensions
                         return Task.CompletedTask;
                     }
                 };
-
+            })
+            .AddJWTTokenFactory(o =>
+            {
+                o.Secret = configuration["Authentication:AuthSecret"]!;
             });
         }
 

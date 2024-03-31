@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Authentication_Basics.ExceptionsHandlers
 {
@@ -33,13 +34,31 @@ namespace Authentication_Basics.ExceptionsHandlers
                 Title = "Server error"
             };
 
-            //httpContext.Response.StatusCode = problemDetails.Status.Value;
+            httpContext.Response.StatusCode = problemDetails.Status.Value;
 
             await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
             return false;
         }
     }
+
+    public class ValidationExceptionHandler : IExceptionHandler
+    {
+        public async ValueTask<bool> TryHandleAsync(HttpContext context, Exception exception,
+            CancellationToken cancellationToken)
+        {
+            if (exception is ValidationException validationException)
+            {
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                await context.Response.WriteAsJsonAsync(validationException.ValidationResult, cancellationToken);
+
+                return true;
+            }
+
+            return false;
+        }
+    }
+
 
     [Obsolete]
     public class ExceptionHandlingMiddleware

@@ -24,7 +24,7 @@ namespace Authentication_Basics.AuthrorizationRequirments
             var hasFriendClaim = principal.Claims.Any(x => x.Type == "Friend");
             if (!hasFriendClaim)
             {
-                ((ClaimsIdentity)principal.Identity).AddClaim(new Claim("Friend", "Bad"));
+                ((ClaimsIdentity)principal.Identity!).AddClaim(new Claim("Friend", "Bad"));
             }
             return Task.FromResult(principal);
         }

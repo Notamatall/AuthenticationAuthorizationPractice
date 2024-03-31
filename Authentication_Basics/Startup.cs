@@ -1,4 +1,4 @@
-using Authentication_Basics.AuthenticationExtensions;
+using Authentication_Basics.Authentication;
 using Authentication_Basics.AuthorizationExtensions;
 using Authentication_Basics.ExceptionsHandlers;
 using Authentication_Basics.ExtensionMethods;
@@ -23,7 +23,7 @@ namespace Authentication_Basics
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddExceptionHandler<GlobalExceptionHandler>();
+            services.RegisterExceptionHandlers();
             services.AddProblemDetails();
             services.AddAuthentication(o =>
             {
@@ -58,6 +58,7 @@ namespace Authentication_Basics
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseExceptionHandler();
 
             app.UseCors("AllowSpecificOrigins");
 
@@ -66,8 +67,6 @@ namespace Authentication_Basics
             app.UseRouting();
 
             app.UseAuthorization();
-
-            app.UseExceptionHandler();
 
             app.UseEndpoints(endpoints =>
             {
