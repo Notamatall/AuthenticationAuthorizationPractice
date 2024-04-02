@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Authentication_Basics.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -19,12 +20,21 @@ namespace Authentication_Basics.AuthrorizationRequirments
 
     public class ClaimsTransformation : IClaimsTransformation
     {
+        private IIdentityService identityService;
+        public ClaimsTransformation(IIdentityService identityService)
+        {
+            this.identityService = identityService;
+        }
         public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
-            var hasFriendClaim = principal.Claims.Any(x => x.Type == "Friend");
-            if (!hasFriendClaim)
+            var user = identityService.GetUserInformation(principal.Identity.Name);
+
+            if (user == default || !user.IsEnabled)
+                principal = new ClaimsPrincipal(new ClaimsIdentity());
+            else
             {
-                ((ClaimsIdentity)principal.Identity!).AddClaim(new Claim("Friend", "Bad"));
+                var userIdentity = identityService.CreateUserIdentity(user);
+                principal.AddIdentity(userIdentity);
             }
             return Task.FromResult(principal);
         }

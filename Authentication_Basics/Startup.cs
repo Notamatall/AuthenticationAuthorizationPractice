@@ -1,9 +1,13 @@
 using Authentication_Basics.Authentication;
+using Authentication_Basics.Authentication.Extensions;
 using Authentication_Basics.AuthorizationExtensions;
+using Authentication_Basics.AuthrorizationRequirments;
 using Authentication_Basics.ExceptionsHandlers;
 using Authentication_Basics.ExtensionMethods;
 using Authentication_Basics.LoggerExtensions;
+using Authentication_Basics.Middlewares;
 using Authentication_Basics.SwaggerExtensions;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,16 +27,27 @@ namespace Authentication_Basics
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //     services.AddTransient<FactoryBasedAuthenticationMiddleware>();
+
+            services.AddMemoryCache();
             services.RegisterExceptionHandlers();
             services.AddProblemDetails();
             services.AddAuthentication(o =>
             {
-                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddBasicAuthentication(services)
+            // .AddMultiAuthorization();
+            // .AddBasicAuthentication(services)
             .AddCookieAuthentication()
             .AddJWTAuthentication(configuration);
+         //   services.AddTransient<IClaimsTransformation, ClaimsTransformation>();
+
+            services.AddIdentityService();
+            services.WithMsSqlServer(o =>
+            {
+                o.ConnectionString = configuration.GetConnectionString("Db");
+            });
+            services.WithDapper(configuration);
 
             services.AddSerilog(configuration);
 
@@ -60,11 +75,17 @@ namespace Authentication_Basics
         {
             app.UseExceptionHandler();
 
+            app.UseSwagger(configuration);
+
             app.UseCors("AllowSpecificOrigins");
 
             app.UseAuthentication();
 
+             app.UseConvetionalActivatedMiddleware();
+
             app.UseRouting();
+
+            // app.UseFactoryActivatedMiddleware();
 
             app.UseAuthorization();
 
@@ -72,8 +93,6 @@ namespace Authentication_Basics
             {
                 endpoints.MapControllers();
             });
-
-            app.UseSwagger(configuration);
 
         }
     }

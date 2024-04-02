@@ -1,11 +1,9 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -38,13 +36,14 @@ namespace Authentication_Basics.Filters
         private readonly string[] claimValuesToMatch = [];
 
         public AuthorizationFilterAttribute() { }
-
-        public AuthorizationFilterAttribute(params string[] claimValues) =>
-            claimValuesToMatch = claimValues;
+        public AuthorizationFilterAttribute(string[] claims)
+        {
+            claimValuesToMatch = claims;
+        }
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            Debug.WriteLine("OnAuthorization");
+
             if (IsUnauthorized(context.HttpContext))
             {
                 context.Result = new StatusCodeResult((int)HttpStatusCode.Unauthorized);

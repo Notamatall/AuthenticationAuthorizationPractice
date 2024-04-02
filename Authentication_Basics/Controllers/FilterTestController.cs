@@ -34,14 +34,14 @@ namespace Authentication_Basics.Controllers
         }
 
         [HttpGet("[action]")]
-        [AuthorizationFilter("Bob")]
+        [TypeFilter<AuthorizationFilterAttribute>]
         public IActionResult TestAuthorizationFilter()
         {
             return Ok("Successfuly returned after AuthorizationFilter");
         }
 
         [HttpGet("[action]")]
-        [AuthorizationFilter(AuthenticationSchemes = "cookie")]
+        [TypeFilter<AuthorizationFilterAttribute>]
         [ResourceFilter]
         public IActionResult TestResourceFilter()
         {
