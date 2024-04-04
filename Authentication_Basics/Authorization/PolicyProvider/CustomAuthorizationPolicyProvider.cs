@@ -1,5 +1,6 @@
 ﻿using Authentication_Basics.Authentication;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -21,21 +22,46 @@ namespace Authentication_Basics.AuthrorizationRequirments
     public class ClaimsTransformation : IClaimsTransformation
     {
         private IIdentityService identityService;
-        public ClaimsTransformation(IIdentityService identityService)
+        private IMemoryCache memoryCache;
+        public ClaimsTransformation(
+            IIdentityService identityService,
+            IMemoryCache memoryCache
+            )
         {
             this.identityService = identityService;
+            this.memoryCache = memoryCache;
         }
         public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
-            var user = identityService.GetUserInformation(principal.Identity.Name);
-
-            if (user == default || !user.IsEnabled)
-                principal = new ClaimsPrincipal(new ClaimsIdentity());
-            else
+            if (principal.Identity.IsAuthenticated)
             {
-                var userIdentity = identityService.CreateUserIdentity(user);
-                principal.AddIdentity(userIdentity);
+                DBUserModel user = null;
+                if (memoryCache.TryGetValue(principal.Identity.Name, out var value))
+                    user = (DBUserModel)value;
+                else
+                {
+                    var identityUser = identityService.GetUserInformation(principal.Identity.Name);
+                    memoryCache.Set(principal.Identity.Name, identityUser);
+                    user = (DBUserModel)identityUser;
+
+                }
+
+                if (user != default)
+                {
+                    var userIdentity = identityService.CreateUserIdentity(user);
+                    principal.AddIdentity(userIdentity);
+                }
             }
+            //var user = identityService.GetUserInformation(principal.Identity.Name);
+
+            //if (user == default || !user.IsEnabled)
+            //    principal = new ClaimsPrincipal(new ClaimsIdentity());
+            //else
+            //{
+            //    var userIdentity = identityService.CreateUserIdentity(user);
+            //    principal.AddIdentity(userIdentity);
+            //}
+
             return Task.FromResult(principal);
         }
     }

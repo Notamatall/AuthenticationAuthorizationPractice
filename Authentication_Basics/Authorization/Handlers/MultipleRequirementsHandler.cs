@@ -17,10 +17,9 @@ namespace Authentication_Basics.AuthrorizationRequirements
             {
                 if (requirement is CustomRequirementClaim)
                 {
-                    if (HasCustomRequirement(context, (CustomRequirementClaim)requirement))
-                    {
-                        context.Succeed(requirement);
-                    }
+
+                    context.Succeed(requirement);
+
                 }
                 else if (requirement is SecurityLevelRequirement)
                 {
@@ -34,10 +33,6 @@ namespace Authentication_Basics.AuthrorizationRequirements
             return Task.CompletedTask;
         }
 
-        private static bool HasCustomRequirement(AuthorizationHandlerContext context, CustomRequirementClaim requirement)
-        {
-            return context.User.Claims.Any(x => x.Type == requirement.ClaimType);
-        }
 
         private static bool IsEnoughSecurityhLevelRequirement(AuthorizationHandlerContext context, SecurityLevelRequirement requirement)
         {

@@ -29,9 +29,7 @@ namespace Authentication_Basics.Middlewares
         {
             var user = identityService.GetUserInformation(context.User.Identity.Name);
 
-            if (user == default || !user.IsEnabled)
-                context.User = new ClaimsPrincipal(new ClaimsIdentity());
-            else
+            if (user != default)
             {
                 var userIdentity = identityService.CreateUserIdentity(user);
                 context.User.AddIdentity(userIdentity);
@@ -64,7 +62,7 @@ namespace Authentication_Basics.Middlewares
                 else
                 {
                     var userIdentity = identityService.CreateUserIdentity(user);
-                    context.User.AddIdentity(userIdentity);
+                    //   context.User.AddIdentity(userIdentity);
                 }
             }
 

@@ -1,7 +1,5 @@
 ﻿using Authentication_Basics.Filters;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
@@ -12,14 +10,14 @@ namespace Authentication_Basics.Controllers
     public class AuthorizationController : ControllerBase
     {
         [HttpGet("[action]")]
-        [AuthorizationFilter]
+        [AuthorizationFilter(Policy = "jwt")]
         public IActionResult GetIsAuthenticatedByJWT()
         {
             return Ok("authorized with jwt");
         }
 
         [HttpGet("[action]")]
-        [AuthorizationFilter(Policy = CookieAuthenticationDefaults.AuthenticationScheme)]
+        [AuthorizationFilter(Policy = "EnabledUser")]
         public IActionResult GetIsAuthenticatedByCookie()
         {
             return Ok("authorized with cookie");

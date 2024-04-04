@@ -14,7 +14,7 @@
         public const string UserEmail = ClaimNamespace + "/useremail";
         public static string ApplyNamespace(string claim)
         {
-            return string.Concat(ClaimNamespace, "/user", claim.ToLowerInvariant());
+            return string.Concat(ClaimNamespace, "/user/", claim.ToLowerInvariant());
         }
     }
 }

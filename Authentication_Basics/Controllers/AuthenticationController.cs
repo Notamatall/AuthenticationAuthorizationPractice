@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -38,8 +39,8 @@ namespace Authentication_Basics.Controllers
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
             identity.AddClaim(new Claim(ClaimTypes.Name, model.UserName ?? string.Empty));
             var principal = new ClaimsPrincipal(identity);
-            var dbIdentity = GetIdentityFromDB(model.UserName!);
-            principal.AddIdentity(dbIdentity);
+            //var dbIdentity = GetIdentityFromDB(model.UserName!);
+            //principal.AddIdentity(dbIdentity);
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
@@ -57,8 +58,8 @@ namespace Authentication_Basics.Controllers
         private ClaimsIdentity GetIdentityFromDB(string username)
         {
             var user = identityService.GetUserInformation(username);
-            var userIdentity = identityService.CreateUserIdentity(user);
-            return userIdentity;
+            var identity = identityService.CreateUserIdentity(user);
+            return identity;
         }
 
         [HttpGet("unauthorized")]

@@ -8,11 +8,14 @@ using Authentication_Basics.LoggerExtensions;
 using Authentication_Basics.Middlewares;
 using Authentication_Basics.SwaggerExtensions;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 
 namespace Authentication_Basics
@@ -20,6 +23,7 @@ namespace Authentication_Basics
     public class Startup
     {
         private readonly IConfiguration configuration;
+        private const string MultiAuthSchemaName = "MultiAuthSchema";
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -35,12 +39,22 @@ namespace Authentication_Basics
             services.AddAuthentication(o =>
             {
                 o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+
+                //  o.DefaultChallengeScheme = MultiAuthSchemaName;
             })
             // .AddMultiAuthorization();
             // .AddBasicAuthentication(services)
             .AddCookieAuthentication()
-            .AddJWTAuthentication(configuration);
-         //   services.AddTransient<IClaimsTransformation, ClaimsTransformation>();
+            .AddJWTAuthentication(configuration)
+            .AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = configuration["Authentication:Google:ClientId"]!;
+                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
+            });
+            //  .AddPolicyScheme(MultiAuthSchemaName);
+
+
+            services.AddScoped<IClaimsTransformation, ClaimsTransformation>();
 
             services.AddIdentityService();
             services.WithMsSqlServer(o =>
@@ -56,6 +70,7 @@ namespace Authentication_Basics
             services.AddSwagger(configuration);
 
             services.AddCustomAuthorization();
+            services.AddAuthorizationHandlers();
 
             services.AddCors(options =>
             {
@@ -81,7 +96,7 @@ namespace Authentication_Basics
 
             app.UseAuthentication();
 
-             app.UseConvetionalActivatedMiddleware();
+            //   app.UseConvetionalActivatedMiddleware();
 
             app.UseRouting();
 

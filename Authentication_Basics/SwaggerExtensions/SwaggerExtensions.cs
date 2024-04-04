@@ -55,6 +55,7 @@ namespace Authentication_Basics.SwaggerExtensions
                         Scheme = "oauth2",
                         Name = "Bearer",
                         In = ParameterLocation.Header
+
                     },
                     new List<string>()
                 }

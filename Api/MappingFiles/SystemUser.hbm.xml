@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"  namespace="Elfo.Showcase.Domain.SystemManagement" assembly="Elfo.Showcase.Domain" schema="system">
-	<id name="Id" column="sysUserId">
-		<generator class="native" />
-	</id>
-	
-</hibernate-mapping>

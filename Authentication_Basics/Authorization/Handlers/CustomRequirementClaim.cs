@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Authentication_Basics.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -6,11 +7,10 @@ namespace Authentication_Basics.AuthrorizationRequirments
 {
     public class CustomRequirementClaim : IAuthorizationRequirement
     {
-        public CustomRequirementClaim(string claimType)
+        public CustomRequirementClaim()
         {
-            ClaimType = claimType;
+
         }
-        public string ClaimType { get; set; }
     }
 
     public class CustomAuthorizationHandler : AuthorizationHandler<CustomRequirementClaim>
@@ -19,12 +19,13 @@ namespace Authentication_Basics.AuthrorizationRequirments
             AuthorizationHandlerContext context,
             CustomRequirementClaim requirement)
         {
-            var hasClaims = context.User.Claims.Any(x => x.Type == requirement.ClaimType);
+            var userDisabled = context.User.Claims.FirstOrDefault(x => x.Type == CustomClaimType.ApplyNamespace("isEnabled"))?.Value?.ToLowerInvariant() == "false";
 
-            if (hasClaims)
-            {
+            if (userDisabled)
+                context.Fail();
+            else
                 context.Succeed(requirement);
-            }
+
 
             return Task.CompletedTask;
         }

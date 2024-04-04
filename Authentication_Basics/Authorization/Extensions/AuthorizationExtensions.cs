@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Authentication_Basics.AuthorizationExtensions
 {
@@ -14,23 +13,27 @@ namespace Authentication_Basics.AuthorizationExtensions
         {
             return services.AddAuthorization(options =>
                 {
-                    var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
-                        JwtBearerDefaults.AuthenticationScheme,
-                        CookieAuthenticationDefaults.AuthenticationScheme);
-                    defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
-                    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+                    //var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder();
+                    //defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                    //defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.AddRequirements(new CustomRequirementClaim());
 
+                    //options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
 
 
                     var onlySecondJwtSchemePolicyBuilder = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
-                    options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, onlySecondJwtSchemePolicyBuilder
+                    options.AddPolicy("jwt", onlySecondJwtSchemePolicyBuilder
+                        .AddRequirements(new CustomRequirementClaim())
                         .RequireAuthenticatedUser()
                         .Build());
 
                     var onlyCookieSchemePolicyBuilder = new AuthorizationPolicyBuilder(CookieAuthenticationDefaults.AuthenticationScheme);
-                    options.AddPolicy(CookieAuthenticationDefaults.AuthenticationScheme, onlyCookieSchemePolicyBuilder
-                        .RequireAuthenticatedUser()
-                        .Build());
+                    options.AddPolicy("EnabledUser", b =>
+                    {
+                        b.AddRequirements(new CustomRequirementClaim());
+                     
+                    });
+
+
 
                 });
 
@@ -67,10 +70,11 @@ namespace Authentication_Basics.AuthorizationExtensions
             ////  .AddMultipleRequirementsAuthorizationHandler();
 
         }
-        private static IServiceCollection AddAuthorizationHandlers(this IServiceCollection services)
+
+        public static IServiceCollection AddAuthorizationHandlers(this IServiceCollection services)
         {
-            return services.AddScoped<IAuthorizationHandler, CustomAuthorizationHandler>()
-                           .AddScoped<IAuthorizationHandler, SecurityLevelAuthorizationHandler>();
+            return services.AddScoped<IAuthorizationHandler, CustomAuthorizationHandler>();
+            //    .AddScoped<IAuthorizationHandler, SecurityLevelAuthorizationHandler>();
         }
 
         private static IServiceCollection AddMultipleRequirementsAuthorizationHandler(this IServiceCollection services)

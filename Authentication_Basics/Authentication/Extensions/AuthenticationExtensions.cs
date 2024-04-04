@@ -24,7 +24,7 @@ namespace Authentication_Basics.Authentication
                       {
                           o.LoginPath = "/api/authentication/unauthorized";
                           o.AccessDeniedPath = "/api/authentication/forbidden";
-               
+
                       });
         }
         public static AuthenticationBuilder AddMultiAuthorization(this AuthenticationBuilder builder)
@@ -122,6 +122,25 @@ namespace Authentication_Basics.Authentication
                 o.Secret = configuration["Authentication:AuthSecret"]!;
             });
         }
+
+        public static AuthenticationBuilder AddPolicyScheme(this AuthenticationBuilder authBuilder,string multipleSchemaName)
+        {
+          return  authBuilder.AddPolicyScheme(multipleSchemaName, multipleSchemaName, options =>
+                    {
+                        options.ForwardDefaultSelector = context =>
+                        {
+                            string authorization = context.Request.Headers[HeaderNames.Authorization]!;
+                            if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
+
+                                return JwtBearerDefaults.AuthenticationScheme;
+
+
+                            return CookieAuthenticationDefaults.AuthenticationScheme;
+                        };
+                    });
+        }
+
+
 
         public static AuthenticationBuilder AddBasicAuthentication(this AuthenticationBuilder authBuilder, IServiceCollection services)
         {

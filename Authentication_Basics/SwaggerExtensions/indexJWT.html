@@ -1,0 +1,223 @@
+﻿<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
+		<link
+			rel="icon"
+			type="image/png"
+			href="./favicon-32x32.png"
+			sizes="32x32"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			href="./favicon-16x16.png"
+			sizes="16x16"
+		/>
+		<style>
+			html {
+				box-sizing: border-box;
+				overflow: -moz-scrollbars-vertical;
+				overflow-y: scroll;
+			}
+
+			*,
+			*:before,
+			*:after {
+				box-sizing: inherit;
+			}
+
+			body {
+				margin: 0;
+				background: #fafafa;
+			}
+
+			.swagger-ui.swagger-container .topbar.rua {
+				background: #3b4151;
+				text-align: center;
+				color: white;
+			}
+
+			.swagger-ui.swagger-container .topbar.rua input[type='submit'] {
+				margin: 5px 0;
+				padding: 8px 10px;
+				border: 1px solid #89bf04;
+				border-radius: 4px;
+				background: #89bf04;
+				color: white;
+			}
+			/*.swagger-ui .scheme-container {
+            display: none;
+        }*/
+		</style>
+	</head>
+
+	<body>
+		<div class="swagger-ui swagger-container">
+			<div class="topbar rua">
+				<div class="wrapper">
+					<form id="signin" hidden>
+						<input id="username" type="text" required />
+						<input
+							id="password"
+							type="password"
+							placeholder="*********"
+							required
+						/>
+						<input type="submit" value="signin" />
+					</form>
+					<form id="signout" hidden>
+						<span id="hello"></span>
+						<input type="submit" value="signout" />
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div id="swagger-ui"></div>
+
+		<!-- Workaround for https://github.com/swagger-api/swagger-editor/issues/1371 -->
+		<script>
+			if (window.navigator.userAgent.indexOf('Edge') > -1) {
+				console.log(
+					"Removing native Edge fetch in favor of swagger-ui's polyfill"
+				);
+				window.fetch = undefined;
+			}
+		</script>
+
+		<script src="./swagger-ui-bundle.js"></script>
+		<script src="./swagger-ui-standalone-preset.js"></script>
+		<script>
+			window.onload = function () {
+				var configObject = {
+					urls: [
+						{ url: '../swagger/v1/swagger.json', name: 'Specification 1' },
+					],
+					validatorUrl: null,
+					dom_id: '#swagger-ui',
+					presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+					layout: 'StandaloneLayout',
+					requestInterceptor: (req) => {
+						const token = localStorage.getItem('token');
+						if (token) {
+							const _token = JSON.parse(token);
+							req.headers.Authorization = `Bearer ${_token.accessToken}`;
+						}
+
+						return req;
+					},
+
+					responseInterceptor: (res) => {
+						if (res && res.status == 401) localStorage.removeItem('token');
+						return res;
+					},
+
+					onComplete: () => {
+						const signin = document.getElementById('signin');
+						const signout = document.getElementById('signout');
+						const hello = document.getElementById('hello');
+						ui.preauthorizeApiKey('Bearer', 'abcde12345');
+
+						const lock = () => {
+							var buttons = document.getElementsByClassName(
+								'authorization__btn unlocked'
+							);
+							while (buttons.length > 0) {
+								var use = buttons[0].getElementsByTagName('use')[0];
+								use.setAttribute('href', '#locked');
+								buttons[0].classList.replace('unlocked', 'locked');
+							}
+						};
+
+						const unlock = () => {
+							var buttons = document.getElementsByClassName(
+								'authorization__btn locked'
+							);
+							while (buttons.length > 0) {
+								var use = buttons[0].getElementsByTagName('use')[0];
+								use.setAttribute('href', '#unlocked');
+								buttons[0].classList.replace('locked', 'unlocked');
+							}
+						};
+
+						const update = () => {
+							const token = localStorage.getItem('token');
+
+							if (token) {
+								const Username = JSON.parse(
+									window.atob(
+										token
+											.split('.')
+											.splice(1, 1)
+											.shift()
+											.replace('-', '+')
+											.replace('_', '/')
+									)
+								);
+								hello.innerText = Username.unique_name;
+								signin.hidden = true;
+								signout.hidden = false;
+								lock();
+							} else {
+								signin.hidden = false;
+								signout.hidden = true;
+								unlock();
+							}
+						};
+
+						signin.addEventListener('submit', (event) => {
+							event.preventDefault();
+							const options = {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({
+									username: document.getElementById('username').value,
+									password: document.getElementById('password').value,
+								}),
+							};
+
+							fetch('../api/round/authentication/GetAccessToken', options)
+								.then((res) => res.text())
+								.then((token) => localStorage.setItem('token', token))
+								.then(update);
+						});
+
+						signout.addEventListener('submit', (event) => {
+							event.preventDefault();
+							localStorage.removeItem('token');
+							update();
+						});
+
+						update();
+					},
+				};
+				var oauthConfigObject = {};
+
+				// If validatorUrl is not explicitly provided, disable the feature by setting to null
+				if (!configObject.hasOwnProperty('validatorUrl'))
+					configObject.validatorUrl = null;
+
+				// If oauth2RedirectUrl isn't specified, use the built-in default
+				if (!configObject.hasOwnProperty('oauth2RedirectUrl'))
+					configObject.oauth2RedirectUrl = window.location.href
+						.replace('index.html', 'oauth2-redirect.html')
+						.split('#')[0];
+
+				// Begin Swagger UI call region
+
+				const ui = SwaggerUIBundle(configObject);
+
+				ui.initOAuth(oauthConfigObject);
+
+				// End Swagger UI call region
+
+				window.ui = ui;
+			};
+		</script>
+	</body>
+</html>
