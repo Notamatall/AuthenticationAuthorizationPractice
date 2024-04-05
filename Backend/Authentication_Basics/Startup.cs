@@ -20,95 +20,95 @@ using System;
 
 namespace Authentication_Basics
 {
-    public class Startup
-    {
-        private readonly IConfiguration configuration;
-        private const string MultiAuthSchemaName = "MultiAuthSchema";
-        public Startup(IConfiguration configuration)
-        {
-            this.configuration = configuration;
-        }
+	public class Startup
+	{
+		private readonly IConfiguration configuration;
+		private const string MultiAuthSchemaName = "MultiAuthSchema";
+		public Startup(IConfiguration configuration)
+		{
+			this.configuration = configuration;
+		}
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            //     services.AddTransient<FactoryBasedAuthenticationMiddleware>();
+		public void ConfigureServices(IServiceCollection services)
+		{
+			//     services.AddTransient<FactoryBasedAuthenticationMiddleware>();
 
-            services.AddMemoryCache();
-            services.RegisterExceptionHandlers();
-            services.AddProblemDetails();
-            services.AddAuthentication(o =>
-            {
-                o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+			services.AddMemoryCache();
+			//services.RegisterExceptionHandlers();
+			services.AddProblemDetails();
+			services.AddAuthentication(o =>
+			{
+				o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 
-                //  o.DefaultChallengeScheme = MultiAuthSchemaName;
-            })
-            // .AddMultiAuthorization();
-            // .AddBasicAuthentication(services)
-            .AddCookieAuthentication()
-            .AddJWTAuthentication(configuration)
-            .AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = configuration["Authentication:Google:ClientId"]!;
-                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
-            });
-            //  .AddPolicyScheme(MultiAuthSchemaName);
+				//  o.DefaultChallengeScheme = MultiAuthSchemaName;
+			})
+			// .AddMultiAuthorization();
+			// .AddBasicAuthentication(services)
+			.AddCookieAuthentication()
+			.AddJWTAuthentication(configuration)
+			.AddGoogle(googleOptions =>
+			{
+				googleOptions.ClientId = configuration["Authentication:Google:ClientId"]!;
+				googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
+			});
+			//  .AddPolicyScheme(MultiAuthSchemaName);
 
 
-            services.AddScoped<IClaimsTransformation, ClaimsTransformation>();
+			services.AddScoped<IClaimsTransformation, ClaimsTransformation>();
 
-            services.AddIdentityService();
-            services.WithMsSqlServer(o =>
-            {
-                o.ConnectionString = configuration.GetConnectionString("Db");
-            });
-            services.WithDapper(configuration);
+			services.AddIdentityService();
+			services.WithMsSqlServer(o =>
+			{
+				o.ConnectionString = configuration.GetConnectionString("Db");
+			});
+			services.WithDapper(configuration);
 
-            services.AddSerilog(configuration);
+			//	services.AddSerilog(configuration);
 
-            services.AddGlobalAuthWithControllers();
+			services.AddGlobalAuthWithControllers();
 
-            services.AddSwagger(configuration);
+			services.AddSwagger(configuration);
 
-            services.AddCustomAuthorization();
-            services.AddAuthorizationHandlers();
+			services.AddCustomAuthorization();
+			services.AddAuthorizationHandlers();
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigins", builder =>
-                {
-                    builder
-                    .WithOrigins(configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [])
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials()
-                    .WithExposedHeaders(configuration.GetSection("Cors:ExposedHeaders").Get<string[]>() ?? Array.Empty<string>());
-                });
-            });
-        }
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowSpecificOrigins", builder =>
+				{
+					builder
+					.WithOrigins(configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [])
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.AllowCredentials()
+					.WithExposedHeaders(configuration.GetSection("Cors:ExposedHeaders").Get<string[]>() ?? Array.Empty<string>());
+				});
+			});
+		}
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            app.UseExceptionHandler();
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			//app.UseExceptionHandler();
 
-            app.UseSwagger(configuration);
+			app.UseSwagger(configuration);
 
-            app.UseCors("AllowSpecificOrigins");
+			app.UseCors("AllowSpecificOrigins");
 
-            app.UseAuthentication();
+			app.UseAuthentication();
 
-            //   app.UseConvetionalActivatedMiddleware();
+			//   app.UseConvetionalActivatedMiddleware();
 
-            app.UseRouting();
+			app.UseRouting();
 
-            // app.UseFactoryActivatedMiddleware();
+			// app.UseFactoryActivatedMiddleware();
 
-            app.UseAuthorization();
+			app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
 
-        }
-    }
+		}
+	}
 }

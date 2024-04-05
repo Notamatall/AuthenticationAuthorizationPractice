@@ -1,0 +1,134 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "globals": {
+    "_": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:vue/recommended",
+    "@vue/typescript/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "ignorePatterns": [
+    "vue.config.js",
+    "**/tests/unit/*.ts",
+    "**/node_modules/**/*.*",
+    "**/src/**/*.json",
+    "**/src/**/*.svg",
+    "**/src/**/*.png",
+    "**/src/shims"
+  ],
+  "rules": {
+    /*eslint no-debugger: "error"*/
+    "vue/no-child-content": "warn",
+    "@typescript-eslint/consistent-indexed-object-style": "error",
+    "@typescript-eslint/consistent-type-definitions": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/member-delimiter-style": "error",
+    "@typescript-eslint/no-duplicate-enum-values": "error",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-this-alias": "off",
+    "@typescript-eslint/semi": [
+      "warn"
+    ],
+    "curly": "off",
+    "no-unused-expressions": "off",
+    "no-empty-function": "warn",
+    "no-console": "warn",
+    "no-return-assign": "off",
+    "no-useless-catch": "warn",
+    "no-use-before-define": "off",
+    "no-debugger": "warn",
+    "operator-linebreak": [
+      "error",
+      "after"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": "off",
+    "spaced-comment": [
+      "warn",
+      "always"
+    ],
+    "space-before-function-paren": "off",
+    "vue/attributes-order": [
+      "error",
+      {
+        "order": [
+          [
+            "SLOT",
+            "CONDITIONALS",
+            "RENDER_MODIFIERS",
+            "LIST_RENDERING"
+          ],
+          [
+            "CONTENT",
+            "OTHER_DIRECTIVES"
+          ],
+          "EVENTS",
+          "TWO_WAY_BINDING",
+          [
+            "OTHER_ATTR",
+            "DEFINITION",
+            "GLOBAL",
+            "UNIQUE"
+          ]
+        ],
+        "alphabetical": true
+      }
+    ],
+    "vue/first-attribute-linebreak": [
+      "warn",
+      {
+        "singleline": "ignore",
+        "multiline": "below"
+      }
+    ],
+    "vue/require-default-prop": "off",
+    "vue/html-closing-bracket-newline": [
+      "warn",
+      {
+        "singleline": "never",
+        "multiline": "always"
+      }
+    ],
+    "vue/html-indent": [
+      "warn",
+      "tab",
+      {
+        "attribute": 1,
+        "closeBracket": {
+          "startTag": 1,
+          "endTag": 0,
+          "selfClosingTag": 0
+        },
+        "alignAttributesVertically": true
+      }
+    ],
+    "vue/script-indent": [
+      "error",
+      "tab",
+      {
+        "baseIndent": 0,
+        "switchCase": 1
+      }
+    ],
+    "vue/valid-v-slot": [
+      "warn",
+      {
+        "allowModifiers": true
+      }
+    ]
+  }
+}

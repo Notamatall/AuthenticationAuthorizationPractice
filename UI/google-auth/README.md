@@ -1,4 +1,4 @@
-# auth-test
+# google-auth
 
 ## Project setup
 ```
