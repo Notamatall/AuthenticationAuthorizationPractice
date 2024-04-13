@@ -10,14 +10,14 @@ namespace Authentication_Basics.Controllers
     public class AuthorizationController : ControllerBase
     {
         [HttpGet("[action]")]
-        [AuthorizationFilter(Policy = "jwt")]
+        [AuthorizationFilter]
         public IActionResult GetIsAuthenticatedByJWT()
         {
             return Ok("authorized with jwt");
         }
 
         [HttpGet("[action]")]
-        [AuthorizationFilter(Policy = "EnabledUser")]
+        [AuthorizationFilter(Policy = "cookiePolicy")]
         public IActionResult GetIsAuthenticatedByCookie()
         {
             return Ok("authorized with cookie");

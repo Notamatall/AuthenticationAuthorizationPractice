@@ -13,11 +13,12 @@ namespace Authentication_Basics.AuthorizationExtensions
         {
             return services.AddAuthorization(options =>
                 {
-                    //var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder();
-                    //defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
-                    //defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.AddRequirements(new CustomRequirementClaim());
+                    var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder();
+                    defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                    defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.AddRequirements(new CustomRequirementClaim());
+                    //  defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.AddRequirements(new CustomRequirementClaim());
 
-                    //options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+                    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
 
 
                     var onlySecondJwtSchemePolicyBuilder = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
@@ -26,13 +27,18 @@ namespace Authentication_Basics.AuthorizationExtensions
                         .RequireAuthenticatedUser()
                         .Build());
 
-                    var onlyCookieSchemePolicyBuilder = new AuthorizationPolicyBuilder(CookieAuthenticationDefaults.AuthenticationScheme);
-                    options.AddPolicy("EnabledUser", b =>
+
+                    options.AddPolicy("cookiePolicy", policyBuilder =>
                     {
-                        b.AddRequirements(new CustomRequirementClaim());
-                     
+                        policyBuilder.AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                        policyBuilder.RequireAuthenticatedUser();
                     });
 
+                    options.AddPolicy("onlyEnabledUsers", policyBuilder =>
+                    {
+                        policyBuilder.AddRequirements(new CustomRequirementClaim());
+                    });
 
 
                 });

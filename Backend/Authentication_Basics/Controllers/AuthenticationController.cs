@@ -1,13 +1,14 @@
 ﻿using Authentication_Basics.Authentication;
 using Authentication_Basics.Authentication.JWT;
 using Authentication_Basics.Controllers.Queries;
+using Authentication_Basics.Filters;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
+using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -17,12 +18,11 @@ namespace Authentication_Basics.Controllers
     [Route("api/[controller]")]
     public class AuthenticationController : ControllerBase
     {
-        private IIdentityService identityService;
+
         private JWTTokenFactory jwtTokenFactory;
 
-        public AuthenticationController(IIdentityService identityService, JWTTokenFactory jwtTokenFactory)
+        public AuthenticationController(JWTTokenFactory jwtTokenFactory)
         {
-            this.identityService = identityService;
             this.jwtTokenFactory = jwtTokenFactory;
         }
 
@@ -33,14 +33,20 @@ namespace Authentication_Basics.Controllers
             return Ok(token);
         }
 
+        [HttpGet("[action]")]
+        [AuthorizationFilter(Policy = "googlePolicy")]
+        public IActionResult GenerateJWTTokenWithGoogle()
+        {
+            var token = jwtTokenFactory.GenerateToken(HttpContext.User.Identity.Name);
+            return Ok(token);
+        }
+
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateCookie([FromBody] AuthenticationModel model)
         {
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
             identity.AddClaim(new Claim(ClaimTypes.Name, model.UserName ?? string.Empty));
             var principal = new ClaimsPrincipal(identity);
-            //var dbIdentity = GetIdentityFromDB(model.UserName!);
-            //principal.AddIdentity(dbIdentity);
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
@@ -55,12 +61,6 @@ namespace Authentication_Basics.Controllers
             return Ok();
         }
 
-        private ClaimsIdentity GetIdentityFromDB(string username)
-        {
-            var user = identityService.GetUserInformation(username);
-            var identity = identityService.CreateUserIdentity(user);
-            return identity;
-        }
 
         [HttpGet("unauthorized")]
         public IActionResult GetUnauthorized()

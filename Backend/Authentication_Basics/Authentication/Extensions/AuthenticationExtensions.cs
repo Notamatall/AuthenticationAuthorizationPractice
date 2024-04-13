@@ -24,7 +24,6 @@ namespace Authentication_Basics.Authentication
                       {
                           o.LoginPath = "/api/authentication/unauthorized";
                           o.AccessDeniedPath = "/api/authentication/forbidden";
-
                       });
         }
         public static AuthenticationBuilder AddMultiAuthorization(this AuthenticationBuilder builder)
