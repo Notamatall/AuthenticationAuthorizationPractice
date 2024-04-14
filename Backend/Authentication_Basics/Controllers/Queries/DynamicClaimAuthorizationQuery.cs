@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace Authentication_Basics.Controllers.Queries
+namespace API.Controllers.Queries
 {
     public class DynamicClaimAuthorizationQuery
     {

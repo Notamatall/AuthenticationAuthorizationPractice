@@ -1,7 +1,7 @@
-﻿using Authentication_Basics.Authentication;
-using Authentication_Basics.Authentication.JWT;
-using Authentication_Basics.Controllers.Queries;
-using Authentication_Basics.Filters;
+﻿using API.Authentication;
+using API.Authentication.JWT;
+using API.Controllers.Queries;
+using API.Filters;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +12,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.Controllers
+namespace API.Controllers
 {
     [AllowAnonymous]
     [Route("api/[controller]")]

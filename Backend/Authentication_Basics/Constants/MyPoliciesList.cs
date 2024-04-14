@@ -1,4 +1,4 @@
-﻿namespace Authentication_Basics.Constants
+﻿namespace API.Constants
 {
     public class PoliciesList
     {

@@ -5,7 +5,7 @@ using System;
 using System.Data;
 using System.Linq;
 
-namespace Authentication_Basics.Authentication
+namespace API.Authentication
 {
     public class MsSqlServerOptions
     {

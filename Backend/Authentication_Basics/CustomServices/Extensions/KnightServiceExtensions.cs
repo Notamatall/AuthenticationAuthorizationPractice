@@ -1,8 +1,8 @@
-﻿using Authentication_Basics.CustomServices.KnightService;
+﻿using API.CustomServices.KnightService;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Authentication_Basics.Extensions
+namespace API.Extensions
 {
     public static class KnightServiceExtensions
     {

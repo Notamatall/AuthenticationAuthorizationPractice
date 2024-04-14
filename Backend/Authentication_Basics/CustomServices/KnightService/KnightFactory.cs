@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 
-namespace Authentication_Basics.CustomServices.KnightService
+namespace API.CustomServices.KnightService
 {
     public class KnightFactory : IKnightFactory
     {

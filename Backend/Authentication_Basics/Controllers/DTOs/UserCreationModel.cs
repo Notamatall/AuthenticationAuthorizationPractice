@@ -1,7 +1,7 @@
-﻿using Authentication_Basics.Authentication;
+﻿using API.Authentication;
 using System.Collections.Generic;
 
-namespace Authentication_Basics.Controllers.DTOs
+namespace API.Controllers.DTOs
 {
     public class UserCreationModel
     {

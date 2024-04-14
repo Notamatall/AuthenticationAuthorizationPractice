@@ -1,12 +1,11 @@
-﻿using Authentication_Basics.Authentication.JWT;
-using Authentication_Basics.Mocks;
+﻿using API.Authentication.JWT;
+using API.Mocks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using System;
@@ -14,7 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.Authentication
+namespace API.Authentication
 {
     public static class AuthenticationExtensions
     {

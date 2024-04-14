@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Authentication_Basics.Controllers
+namespace API.Controllers
 {
     public class LoggerTestController : ControllerBase
     {

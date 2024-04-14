@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Authentication_Basics.ExceptionsHandlers
+namespace API.ExceptionsHandlers
 {
     public static class ExceptionsExtensions
     {

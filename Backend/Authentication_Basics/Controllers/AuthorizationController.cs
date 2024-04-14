@@ -1,10 +1,10 @@
-﻿using Authentication_Basics.Filters;
+﻿using API.Filters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Authentication_Basics.Controllers
+namespace API.Controllers
 {
     [Route("[controller]")]
     public class AuthorizationController : ControllerBase

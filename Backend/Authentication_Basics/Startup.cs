@@ -1,12 +1,12 @@
-using Authentication_Basics.Authentication;
-using Authentication_Basics.Authentication.Extensions;
-using Authentication_Basics.AuthorizationExtensions;
-using Authentication_Basics.AuthrorizationRequirments;
-using Authentication_Basics.ExceptionsHandlers;
-using Authentication_Basics.ExtensionMethods;
-using Authentication_Basics.LoggerExtensions;
-using Authentication_Basics.Middlewares;
-using Authentication_Basics.SwaggerExtensions;
+using API.Authentication;
+using API.Authentication.Extensions;
+using API.AuthorizationExtensions;
+using API.AuthrorizationRequirments;
+using API.ExceptionsHandlers;
+using API.ExtensionMethods;
+using API.LoggerExtensions;
+using API.Middlewares;
+using API.SwaggerExtensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 
-namespace Authentication_Basics
+namespace API
 {
     public class Startup
     {

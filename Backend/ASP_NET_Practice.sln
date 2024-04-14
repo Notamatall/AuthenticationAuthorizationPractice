@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication_Basics", "Authentication_Basics\Authentication_Basics.csproj", "{BBAFA034-E6F1-4FB2-8DDC-6BE31DE89BBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "Authentication_Basics\API.csproj", "{BBAFA034-E6F1-4FB2-8DDC-6BE31DE89BBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,10 +1,10 @@
-﻿using Authentication_Basics.AuthrorizationRequirments;
+﻿using API.AuthrorizationRequirments;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.AuthrorizationRequirements
+namespace API.AuthrorizationRequirements
 {
 
     public class MultipleRequirementsHandler : IAuthorizationHandler

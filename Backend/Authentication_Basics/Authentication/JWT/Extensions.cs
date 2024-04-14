@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Authentication_Basics.Authentication.JWT
+namespace API.Authentication.JWT
 {
     public static class JWTExtensions
     {

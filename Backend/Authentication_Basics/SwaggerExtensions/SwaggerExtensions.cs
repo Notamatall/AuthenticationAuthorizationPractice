@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 
-namespace Authentication_Basics.SwaggerExtensions
+namespace API.SwaggerExtensions
 {
     public static class SwaggerExtensions
     {

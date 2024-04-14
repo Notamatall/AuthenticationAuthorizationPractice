@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Authentication_Basics.Authentication
+namespace API.Authentication
 {
     public interface IDBUserModel
     {

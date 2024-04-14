@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Diagnostics;
 
-namespace Authentication_Basics.Filters
+namespace API.Filters
 {
     /// <summary>
     /// Short circuiting the result in case of need using <b>Cancel = true</b>

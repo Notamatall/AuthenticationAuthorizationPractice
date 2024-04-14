@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 
-namespace Authentication_Basics.Filters
+namespace API.Filters
 {
     /// <summary>
     /// 

@@ -1,4 +1,4 @@
-﻿namespace Authentication_Basics.CustomServices.KnightService
+﻿namespace API.CustomServices.KnightService
 {
     public class KnightOptions
     {

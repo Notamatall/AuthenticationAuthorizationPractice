@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
 
-namespace Authentication_Basics.Authentication.Extensions
+namespace API.Authentication.Extensions
 {
     public static class IdentityExtensions
     {

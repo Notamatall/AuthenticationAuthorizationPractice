@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Authentication_Basics.Authentication.JWT
+namespace API.Authentication.JWT
 {
     public interface ITokenFactory
     {

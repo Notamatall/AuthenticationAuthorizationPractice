@@ -1,4 +1,4 @@
-﻿namespace Authentication_Basics.Authentication
+﻿namespace API.Authentication
 {
     public class DapperOptions
     {

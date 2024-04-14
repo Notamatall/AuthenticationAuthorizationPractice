@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.Mocks
+namespace API.Mocks
 {
     public class User
     {

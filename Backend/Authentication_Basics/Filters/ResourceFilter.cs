@@ -7,7 +7,7 @@ using System.Linq;
 using System.Diagnostics;
 
 
-namespace Authentication_Basics.Filters
+namespace API.Filters
 {
     /// <summary>
     /// <see cref="https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-8.0#resource-filters">link</see>

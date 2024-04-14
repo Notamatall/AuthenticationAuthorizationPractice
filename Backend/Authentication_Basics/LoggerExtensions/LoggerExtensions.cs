@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Authentication_Basics.LoggerExtensions
+namespace API.LoggerExtensions
 {
     public static class LoggerExtensions
     {

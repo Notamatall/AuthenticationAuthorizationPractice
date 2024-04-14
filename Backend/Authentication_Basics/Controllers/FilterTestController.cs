@@ -1,12 +1,12 @@
-﻿using Authentication_Basics.Constants;
-using Authentication_Basics.Filters;
-using Authentication_Basics.Mocks;
+﻿using API.Constants;
+using API.Filters;
+using API.Mocks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.Controllers
+namespace API.Controllers
 {
     [Route("[controller]")]
     [ApiController]

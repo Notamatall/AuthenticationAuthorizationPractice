@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.IO;
 
-namespace Authentication_Basics
+namespace API
 {
     public class Program
     {

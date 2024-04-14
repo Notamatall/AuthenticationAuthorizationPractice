@@ -1,11 +1,11 @@
-﻿using Authentication_Basics.Filters;
+﻿using API.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Authentication_Basics.ExtensionMethods
+namespace API.ExtensionMethods
 {
     public static class MvcExtensions
     {

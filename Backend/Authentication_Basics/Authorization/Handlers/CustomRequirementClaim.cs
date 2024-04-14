@@ -1,9 +1,9 @@
-﻿using Authentication_Basics.Authentication;
+﻿using API.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.AuthrorizationRequirments
+namespace API.AuthrorizationRequirments
 {
     public class CustomRequirementClaim : IAuthorizationRequirement
     {

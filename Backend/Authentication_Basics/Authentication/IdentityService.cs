@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Authentication_Basics.Authentication
+namespace API.Authentication
 {
     public class IdentityService : IIdentityService
     {

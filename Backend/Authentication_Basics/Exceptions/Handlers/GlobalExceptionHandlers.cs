@@ -7,7 +7,7 @@ using System.Threading;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Authentication_Basics.ExceptionsHandlers
+namespace API.ExceptionsHandlers
 {
     /// <summary>
     /// If exception cannot be handled shoud return false

@@ -1,4 +1,4 @@
-﻿using Authentication_Basics.Authentication;
+﻿using API.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.AuthrorizationRequirments
+namespace API.AuthrorizationRequirments
 {
     public static class DynamicPolicies
     {

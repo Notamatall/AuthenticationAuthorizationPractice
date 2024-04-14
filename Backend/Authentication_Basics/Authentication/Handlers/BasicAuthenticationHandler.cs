@@ -1,4 +1,4 @@
-﻿using Authentication_Basics.Mocks;
+﻿using API.Mocks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.Authentication
+namespace API.Authentication
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {

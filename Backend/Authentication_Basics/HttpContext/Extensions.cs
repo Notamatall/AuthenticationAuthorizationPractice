@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Principal;
 
-namespace Authentication_Basics
+namespace API
 {
     public static class HttpContextExtensions
     {

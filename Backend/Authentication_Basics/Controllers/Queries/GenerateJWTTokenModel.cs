@@ -1,4 +1,4 @@
-﻿namespace Authentication_Basics.Controllers.Queries
+﻿namespace API.Controllers.Queries
 {
     public class AuthenticationModel
     {

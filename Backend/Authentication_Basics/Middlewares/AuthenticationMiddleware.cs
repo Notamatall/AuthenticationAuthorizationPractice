@@ -1,4 +1,4 @@
-﻿using Authentication_Basics.Authentication;
+﻿using API.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.Middlewares
+namespace API.Middlewares
 {
 
     public class AuthenticationMiddleware

@@ -1,9 +1,9 @@
-﻿using Authentication_Basics.Controllers.DTOs;
+﻿using API.Controllers.DTOs;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
-namespace Authentication_Basics.Controllers
+namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

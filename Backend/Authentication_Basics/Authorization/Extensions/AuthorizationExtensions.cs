@@ -1,11 +1,11 @@
-﻿using Authentication_Basics.AuthrorizationRequirements;
-using Authentication_Basics.AuthrorizationRequirments;
+﻿using API.AuthrorizationRequirements;
+using API.AuthrorizationRequirments;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Authentication_Basics.AuthorizationExtensions
+namespace API.AuthorizationExtensions
 {
     public static class AuthorizationExtensions
     {

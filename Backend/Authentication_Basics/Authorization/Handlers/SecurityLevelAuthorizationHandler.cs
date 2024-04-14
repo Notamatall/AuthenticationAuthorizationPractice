@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Authentication_Basics.AuthrorizationRequirements
+namespace API.AuthrorizationRequirements
 {
     public class SecurityLevelRequirement : IAuthorizationRequirement
     {

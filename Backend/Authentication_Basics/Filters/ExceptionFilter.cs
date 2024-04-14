@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 
-namespace Authentication_Basics.Filters
+namespace API.Filters
 {
     /// <summary>
     /// <b>Can be used to implement common error handling policies.</b>
